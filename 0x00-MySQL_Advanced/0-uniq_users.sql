@@ -1,4 +1,4 @@
---We are all unique
+-- We are all unique
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
