@@ -1,1 +1,2 @@
 // my comment
+db.school.find({"name": /^Holberton/})
