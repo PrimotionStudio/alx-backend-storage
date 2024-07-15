@@ -5,7 +5,10 @@ provides some stats about Nginx logs stored in MongoDB
 from pymongo import MongoClient
 
 
-if __name__ == "__main__":
+def run():
+    """
+    provides some stats about Nginx logs stored in MongoDB
+    """
     client = MongoClient('mongodb://127.0.0.1:27017')
     col_nginx = client.logs.nginx
     total = col_nginx.count_documents({})
@@ -33,3 +36,6 @@ if __name__ == "__main__":
     ])
     for top_ten in top_ten_ips:
         print(f"\t{top_ten["_id"]}: {top_ten["count"]}")
+
+if __name__ == "__main__":
+    run()
