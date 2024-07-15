@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+provides some stats about Nginx logs stored in MongoDB
 """
 from pymongo import MongoClient
 
@@ -14,6 +15,4 @@ if __name__ == "__main__":
     for met in method:
         print(f'\tmethod {met}: {col_nginx.count_documents({"method": met})}')
     status_total = col_nginx.count_documents({"path": "/status"})
-    print(f'{status_total} status check')
-
-    
+    print(f'{status_total} status check')    
