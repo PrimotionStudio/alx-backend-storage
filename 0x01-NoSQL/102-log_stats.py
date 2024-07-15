@@ -37,5 +37,6 @@ def run():
     for top_ten in top_ten_ips:
         print(f"\t{top_ten["_id"]}: {top_ten["count"]}")
 
+
 if __name__ == "__main__":
     run()
