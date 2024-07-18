@@ -24,6 +24,7 @@ def replay(method: Callable) -> None:
     for _in, _out in zip(inputs, outputs):
         print(f"{meth}(*{_in.decode("utf-8")}) -> {_out.decode("utf-8")}")
 
+
 def call_history(method: Callable) -> Callable:
     """
     This function is used to log the history of the function
@@ -42,6 +43,7 @@ def call_history(method: Callable) -> Callable:
 
     return wrapper
 
+
 def count_calls(method: Callable) -> Callable:
     """
     This function is used to count the number of calls to a function
@@ -57,10 +59,12 @@ def count_calls(method: Callable) -> Callable:
 
     return wrapper
 
+
 class Cache:
     """
     This class is used to manage the cache
     """
+
     def __init__(self):
         """
         This method is used to initialize the cache
@@ -78,7 +82,8 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(self, key,
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """
         This method is used to get data from the cache
         """
