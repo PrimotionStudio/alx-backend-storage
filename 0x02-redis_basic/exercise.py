@@ -9,12 +9,37 @@ from typing import Union, Callable, Optional
 from functools import wraps
 
 
-def count_calls(method: Callable) -> Callable:
+def call_history(method: Callable) -> Callable:
+    """
+    This function is used to log the history of the function
+    """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
+        """
+        This function is used to log the history of the function
+        """
+        result = method(self, *args, **kwargs)
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
+        self._redis.rpush(input_key, str(args))
+        self._redis.rpush(output_key, str(result))
+        return result
+
+    return wrapper
+
+def count_calls(method: Callable) -> Callable:
+    """
+    This function is used to count the number of calls to a function
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """
+        This function is used to count the number of calls to a function
+        """
         key = method.__qualname__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
+
     return wrapper
 
 class Cache:
@@ -29,6 +54,7 @@ class Cache:
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         This method is used to store data in the cache
