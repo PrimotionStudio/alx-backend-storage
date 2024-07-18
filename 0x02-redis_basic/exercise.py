@@ -9,6 +9,21 @@ from typing import Union, Callable, Optional
 from functools import wraps
 
 
+def replay(method: Callable) -> None:
+    """
+    This function is used to replay the function
+    """
+    client = method.__self__._redis
+    meth = method.__qualname__
+
+    input_key = f"{meth}:inputs"
+    output_key = f"{meth}:outputs"
+    inputs = client.lrange(input_key, 0, -1)
+    outputs = client.lrange(output_key, 0, -1)
+    print(f"{meth} was called {len(inputs)} times:")
+    for _in, _out in zip(inputs, outputs):
+        print(f"{meth}(*{_in.decode("utf-8")}) -> {_out.decode("utf-8")}")
+
 def call_history(method: Callable) -> Callable:
     """
     This function is used to log the history of the function
